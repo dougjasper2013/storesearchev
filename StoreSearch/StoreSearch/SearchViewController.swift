@@ -18,6 +18,7 @@ class SearchViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 51, left: 0, bottom: 0, right: 0)
         let cellNib = UINib(nibName: TableView.CellIdentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifiers.searchResultCell)
+        searchBar.becomeFirstResponder()
     }
     
     @IBOutlet weak var searchBar: UISearchBar!
