@@ -14,6 +14,7 @@
 		802DD9B72C34B56E0022B5A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 802DD9B62C34B56E0022B5A5 /* Assets.xcassets */; };
 		802DD9BA2C34B56E0022B5A5 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 802DD9B92C34B56E0022B5A5 /* Base */; };
 		802DD9C22C34D2600022B5A5 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802DD9C12C34D2600022B5A5 /* SearchResult.swift */; };
+		8080559C2C3F4581007CBCB1 /* LoadingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8080559B2C3F4581007CBCB1 /* LoadingCell.xib */; };
 		8094ECD22C360E2300CC20B4 /* SearchResultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8094ECD12C360E2300CC20B4 /* SearchResultCell.xib */; };
 		8094ECD42C36201500CC20B4 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8094ECD32C36201500CC20B4 /* SearchResultCell.swift */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 		802DD9B92C34B56E0022B5A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		802DD9BB2C34B56E0022B5A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		802DD9C12C34D2600022B5A5 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		8080559B2C3F4581007CBCB1 /* LoadingCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingCell.xib; sourceTree = "<group>"; };
 		8094ECD12C360E2300CC20B4 /* SearchResultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchResultCell.xib; sourceTree = "<group>"; };
 		8094ECD32C36201500CC20B4 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -72,6 +74,7 @@
 				802DD9C12C34D2600022B5A5 /* SearchResult.swift */,
 				8094ECD12C360E2300CC20B4 /* SearchResultCell.xib */,
 				8094ECD32C36201500CC20B4 /* SearchResultCell.swift */,
+				8080559B2C3F4581007CBCB1 /* LoadingCell.xib */,
 			);
 			path = StoreSearch;
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 				802DD9B72C34B56E0022B5A5 /* Assets.xcassets in Resources */,
 				802DD9BA2C34B56E0022B5A5 /* Base in Resources */,
 				8094ECD22C360E2300CC20B4 /* SearchResultCell.xib in Resources */,
+				8080559C2C3F4581007CBCB1 /* LoadingCell.xib in Resources */,
 				802DD9B52C34B56D0022B5A5 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,13 +11,20 @@ class SearchViewController: UIViewController {
     
     var searchResults = [SearchResult]()
     var hasSearched = false
-    
+    var isLoading = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         tableView.contentInset = UIEdgeInsets(top: 51, left: 0, bottom: 0, right: 0)
-        let cellNib = UINib(nibName: TableView.CellIdentifiers.searchResultCell, bundle: nil)
+        var cellNib = UINib(nibName: TableView.CellIdentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifiers.searchResultCell)
+        cellNib = UINib(
+          nibName: TableView.CellIdentifiers.loadingCell,
+          bundle: nil)
+        tableView.register(
+          cellNib,
+          forCellReuseIdentifier: TableView.CellIdentifiers.loadingCell)
         searchBar.becomeFirstResponder()
     }
     
@@ -27,6 +34,7 @@ class SearchViewController: UIViewController {
     struct TableView {
         struct CellIdentifiers {
             static let searchResultCell = "SearchResultCell"
+            static let loadingCell = "LoadingCell"
         }
     }
     
@@ -34,9 +42,10 @@ class SearchViewController: UIViewController {
     func iTunesURL(searchText: String) -> URL {
       let encodedText = searchText.addingPercentEncoding(
           withAllowedCharacters: CharacterSet.urlQueryAllowed)!  // Add this
-      let urlString = String(
-        format: "https://itunes.apple.com/search?term=%@",
-        encodedText)                                             // Change this
+      let urlString = String(format:
+        "https://itunes.apple.com/search?term=%@&limit=200",
+        encodedText)
+                                             // Change this
       let url = URL(string: urlString)
       return url!
     }
@@ -114,7 +123,10 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
       _ tableView: UITableView,
       numberOfRowsInSection section: Int
     ) -> Int {
-      if !hasSearched { // equivalent to: if hasSearched == false {
+      if isLoading {
+        return 1
+      }
+      else if !hasSearched { // equivalent to: if hasSearched == false {
         return 0
       } else if searchResults.count == 0 {
         return 1
@@ -128,11 +140,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
       _ tableView: UITableView,
       cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-      let cellIdentifier = TableView.CellIdentifiers.searchResultCell
-      let cell = tableView.dequeueReusableCell(
-        withIdentifier: cellIdentifier,
-        for: indexPath) as! SearchResultCell                  // Change this
-      if searchResults.count == 0 {
+      // New code
+      if isLoading {
+        let cell = tableView.dequeueReusableCell(
+          withIdentifier: TableView.CellIdentifiers.loadingCell,
+          for: indexPath)
+
+        let spinner = cell.viewWithTag(100) as! UIActivityIndicatorView
+        spinner.startAnimating()
+        return cell
+      } else if searchResults.count == 0 {
         cell.nameLabel.text = "(Nothing found)"               // Change this
         cell.artistNameLabel.text = ""                        // Change this
       } else {
@@ -163,12 +180,13 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
       _ tableView: UITableView,
       willSelectRowAt indexPath: IndexPath
     ) -> IndexPath? {
-      if searchResults.count == 0 {
+      if searchResults.count == 0 || isLoading {    // Changed
         return nil
       } else {
         return indexPath
       }
     }
+
 
 }
 
