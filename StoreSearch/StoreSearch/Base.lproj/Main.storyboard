@@ -33,17 +33,37 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="kz3-hK-0pn"/>
                                 </connections>
                             </searchBar>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jl3-iy-WAP">
+                                <rect key="frame" x="0.0" y="120" width="393" height="44"/>
+                                <items>
+                                    <barButtonItem style="plain" id="3uj-40-CJb">
+                                        <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="BoU-Qs-xir">
+                                            <rect key="frame" x="16" y="5.6666666666666679" width="361" height="33"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <segments>
+                                                <segment title="All"/>
+                                                <segment title="Music"/>
+                                                <segment title="Software"/>
+                                                <segment title="E-books"/>
+                                            </segments>
+                                        </segmentedControl>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Jl3-iy-WAP" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="0DM-NX-boU"/>
                             <constraint firstItem="0zj-82-f5j" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Je7-uu-3Ij"/>
                             <constraint firstItem="0zj-82-f5j" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="PsO-Wd-Unq"/>
                             <constraint firstItem="jX0-6q-VqI" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="SsQ-Si-4cZ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0zj-82-f5j" secondAttribute="trailing" id="Tbp-g8-TTN"/>
+                            <constraint firstItem="Jl3-iy-WAP" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="WZe-K0-4Dg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0zj-82-f5j" secondAttribute="bottom" id="YDc-2x-cTX"/>
                             <constraint firstItem="jX0-6q-VqI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ahd-Ot-6EI"/>
                             <constraint firstItem="jX0-6q-VqI" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="iv2-uB-g2W"/>
+                            <constraint firstItem="Jl3-iy-WAP" firstAttribute="top" secondItem="jX0-6q-VqI" secondAttribute="bottom" constant="5" id="zmh-Z4-R3L"/>
                         </constraints>
                     </view>
                     <connections>
