@@ -14,6 +14,12 @@ class SearchViewController: UIViewController {
     var isLoading = false
     var dataTask: URLSessionDataTask?
 
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        performSearch()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -47,16 +53,23 @@ class SearchViewController: UIViewController {
     }
     
     // MARK: - Helper Methods
-    func iTunesURL(searchText: String) -> URL {
+    func iTunesURL(searchText: String, category: Int) -> URL {
+      let kind: String
+      switch category {
+        case 1: kind = "musicTrack"
+        case 2: kind = "software"
+        case 3: kind = "ebook"
+        default: kind = ""
+      }
       let encodedText = searchText.addingPercentEncoding(
-          withAllowedCharacters: CharacterSet.urlQueryAllowed)!  // Add this
-      let urlString = String(format:
-        "https://itunes.apple.com/search?term=%@&limit=200",
-        encodedText)
-                                             // Change this
+          withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+      let urlString = "https://itunes.apple.com/search?" +
+        "term=\(encodedText)&limit=200&entity=\(kind)"
+      
       let url = URL(string: urlString)
       return url!
     }
+
     
     
     
