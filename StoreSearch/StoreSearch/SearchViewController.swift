@@ -19,9 +19,15 @@ class SearchViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 51, left: 0, bottom: 0, right: 0)
         var cellNib = UINib(nibName: TableView.CellIdentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableView.CellIdentifiers.searchResultCell)
+        
+        cellNib = UINib(nibName: TableView.CellIdentifiers.nothingFoundCell, bundle: nil)
+        tableView.register(cellNib,
+          forCellReuseIdentifier: TableView.CellIdentifiers.nothingFoundCell)
+        
         cellNib = UINib(
           nibName: TableView.CellIdentifiers.loadingCell,
           bundle: nil)
+        
         tableView.register(
           cellNib,
           forCellReuseIdentifier: TableView.CellIdentifiers.loadingCell)
@@ -34,6 +40,7 @@ class SearchViewController: UIViewController {
     struct TableView {
         struct CellIdentifiers {
             static let searchResultCell = "SearchResultCell"
+            static let nothingFoundCell = "NothingFoundCell"
             static let loadingCell = "LoadingCell"
         }
     }
@@ -91,24 +98,36 @@ class SearchViewController: UIViewController {
 // MARK: - Search Bar Delegate
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-      if !searchBar.text!.isEmpty {
-        searchBar.resignFirstResponder()
-
-        hasSearched = true
-        searchResults = []
-
-        let url = iTunesURL(searchText: searchBar.text!)
-        print("URL: '\(url)'")
-          
-        if let data = performStoreRequest(with: url) {  // Modified
-          searchResults = parse(data: data)
+        if !searchBar.text!.isEmpty {
+            searchBar.resignFirstResponder()
             
-          searchResults.sort(by: <)
+            isLoading = true
+            tableView.reloadData()
+            
+            hasSearched = true
+            searchResults = []
+            
+            // Replace all code after this with new code below
+            // 1
+            let queue = DispatchQueue.global()
+            let url = self.iTunesURL(searchText: searchBar.text!)
+            // 2
+            queue.async {
 
+              if let data = self.performStoreRequest(with: url) {
+                self.searchResults = self.parse(data: data)
+                self.searchResults.sort(by: <)
+                // 3
+                  
+                DispatchQueue.main.async {
+                  self.isLoading = false
+                  self.tableView.reloadData()
+                }
+
+                return
+              }
+            }
         }
-
-        tableView.reloadData()
-      }
     }
     
     func position(for bar: UIBarPositioning) -> UIBarPosition {
@@ -140,7 +159,6 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
       _ tableView: UITableView,
       cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-      // New code
       if isLoading {
         let cell = tableView.dequeueReusableCell(
           withIdentifier: TableView.CellIdentifiers.loadingCell,
@@ -150,12 +168,15 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         spinner.startAnimating()
         return cell
       } else if searchResults.count == 0 {
-        cell.nameLabel.text = "(Nothing found)"               // Change this
-        cell.artistNameLabel.text = ""                        // Change this
+        return tableView.dequeueReusableCell(
+          withIdentifier: TableView.CellIdentifiers.nothingFoundCell,
+          for: indexPath)
       } else {
+        let cell = tableView.dequeueReusableCell(
+          withIdentifier: TableView.CellIdentifiers.searchResultCell,
+          for: indexPath) as! SearchResultCell
         let searchResult = searchResults[indexPath.row]
-        cell.nameLabel.text = searchResult.name               // Change this
-        // cell.artistNameLabel.text = searchResult.artistName   // Change this
+        cell.nameLabel.text = searchResult.name
         if searchResult.artist.isEmpty {
           cell.artistNameLabel.text = "Unknown"
         } else {
@@ -164,8 +185,8 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
             searchResult.artist,
             searchResult.type)
         }
+        return cell
       }
-      return cell
     }
 
     
