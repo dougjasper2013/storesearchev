@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class SearchViewController: UIViewController {
     
@@ -13,7 +14,8 @@ class SearchViewController: UIViewController {
     var hasSearched = false
     var isLoading = false
     var dataTask: URLSessionDataTask?
-
+    var player: AVPlayer? // Add this property for audio playback
+    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     @IBAction func segmentChanged(_ sender: UISegmentedControl) {
@@ -97,7 +99,12 @@ class SearchViewController: UIViewController {
       alert.addAction(action)
       present(alert, animated: true, completion: nil)
     }
-
+    
+    func playAudio(url: URL) {
+        let playerItem = AVPlayerItem(url: url)
+        player = AVPlayer(playerItem: playerItem)
+        player?.play()
+    }
 
 }
 
@@ -201,11 +208,12 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     
-    func tableView(
-      _ tableView: UITableView,
-      didSelectRowAt indexPath: IndexPath
-    ) {
-      tableView.deselectRow(at: indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: true) // Deselect the row after selection
+        let searchResult = searchResults[indexPath.row]
+        if let previewUrlString = searchResult.previewUrl, let previewUrl = URL(string: previewUrlString) {
+            playAudio(url: previewUrl) // Play the audio preview
+        }
     }
       
     func tableView(

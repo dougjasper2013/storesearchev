@@ -34,6 +34,7 @@ class SearchResult: Codable, CustomStringConvertible {
   var itemPrice: Double?
   var itemGenre: String?
   var bookGenre: [String]?
+  var previewUrl: String? // Add this property for preview URL
     
   var storeURL: String {
     return trackViewUrl ?? collectionViewUrl ?? ""
@@ -84,7 +85,8 @@ class SearchResult: Codable, CustomStringConvertible {
     case kind, artistName, currency
     case trackName, trackPrice, trackViewUrl
     case collectionName, collectionViewUrl, collectionPrice
-  }     
+    case previewUrl // Add this key for the preview URL
+  }
 
 }
 
